@@ -26,7 +26,8 @@
         &#8226; <a href="https://github.com/serso/android-linear-layout-manager">Android Linear Layout Manager by serso</a><br/>
         &#8226; <a href="https://android.googlesource.com/platform/frameworks/volley">Volley by Google</a><br/>
         &#8226; Support Libraries by Google<br/>
-        &#8226; А также большое количество кода с StackOverflow и прочих сайтов, авторство которого установить уже не представляется возможным
+        &#8226; А также большое количество кода с StackOverflow и прочих сайтов, авторство которого установить уже не представляется возможным<br/><br/>
+        Распространяется под лицензией <a href="http://opensource.org/licenses/LGPL-3.0">LGPL v3.0</a>
         ]]>
     </string>
     <string name="updates_available">Обнаружены обновления</string>
