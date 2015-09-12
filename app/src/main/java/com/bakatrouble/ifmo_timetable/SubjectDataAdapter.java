@@ -65,21 +65,6 @@ public class SubjectDataAdapter extends RecyclerView.Adapter<SubjectDataAdapter.
                 viewHolder.window.setVisibility(View.VISIBLE);
             }
         }
-        if(mDataset.get(position).addons.size() > 0){
-            viewHolder.wrapper.removeViews(1, viewHolder.wrapper.getChildCount() - 1);
-            for(int i=0; i<mDataset.get(position).addons.size(); i++){
-                View view = LayoutInflater.from(mParent.getContext()).inflate(R.layout.subject_card_append, null);
-                ViewHolder viewHolderl = new ViewHolder(view);
-                viewHolderl.time_begin.setText(mDataset.get(position).addons.get(i).time_begin);
-                viewHolderl.time_end.setText(mDataset.get(position).addons.get(i).time_end);
-                viewHolderl.title.setText(mDataset.get(position).addons.get(i).title);
-                viewHolderl.teacher.setText(mDataset.get(position).addons.get(i).teacher);
-                if(mDataset.get(position).addons.get(i).teacher.isEmpty())
-                    viewHolderl.teacher.setVisibility(View.GONE);
-                viewHolderl.place.setText(mDataset.get(position).addons.get(i).place);
-                viewHolder.wrapper.addView(view);
-            }
-        }
         viewHolder.time_begin.setText(mDataset.get(position).time_begin);
         viewHolder.time_end.setText(mDataset.get(position).time_end);
         viewHolder.title.setText(mDataset.get(position).title);
@@ -87,6 +72,11 @@ public class SubjectDataAdapter extends RecyclerView.Adapter<SubjectDataAdapter.
         if(mDataset.get(position).teacher.isEmpty())
             viewHolder.teacher.setVisibility(View.GONE);
         viewHolder.place.setText(mDataset.get(position).place);
+        if(mDataset.get(position).addons.size() > 0){
+            for(int i=0; i<mDataset.get(position).addons.size(); i++){
+                viewHolder.teacher.setText(viewHolder.teacher.getText() + ", " + mDataset.get(position).addons.get(i).teacher);
+            }
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -101,7 +91,7 @@ public class SubjectDataAdapter extends RecyclerView.Adapter<SubjectDataAdapter.
         public TextView title;
         public TextView teacher;
         public TextView place;
-        public TextView window;
+        public RelativeLayout window;
         public LinearLayout wrapper;
         public RelativeLayout card_root;
 
@@ -112,7 +102,7 @@ public class SubjectDataAdapter extends RecyclerView.Adapter<SubjectDataAdapter.
             title = (TextView) itemLayoutView.findViewById(R.id.subject);
             teacher = (TextView) itemLayoutView.findViewById(R.id.teacher);
             place = (TextView) itemLayoutView.findViewById(R.id.place);
-            window = (TextView) itemLayoutView.findViewById(R.id.window_text);
+            window = (RelativeLayout) itemLayoutView.findViewById(R.id.window_text_wrapper);
             wrapper = (LinearLayout) itemLayoutView.findViewById(R.id.card_wrapper);
             card_root = (RelativeLayout) itemLayoutView.findViewById(R.id.subject_root);
         }
