@@ -15,8 +15,8 @@ android {
         applicationId "com.bakatrouble.ifmo_timetable"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 6
-        versionName ".05"
+        versionCode 7
+        versionName ".06"
     }
     buildTypes {
         release {
