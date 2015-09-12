@@ -19,7 +19,8 @@
     <string name="refresh">Обновить</string>
     <string name="today">Расписание на сегодня</string>
     <string name="about_text"><![CDATA[
-        Автор: bakatrouble (2015)<br/><br/>
+        Автор: <a href="http://bakatrouble.tk">bakatrouble</a> (2015)<br/>
+        Исходный код: <a href="https://github.com/bakatrouble/IFMO_Timetable">GitHub</a><br/><br/>
         Использованный код:<br/>
         &#8226; <a href="https://github.com/ozodrukh/CircularReveal">CircularReveal by ozodrukh</a><br/>
         &#8226; <a href="https://github.com/serso/android-linear-layout-manager">Android Linear Layout Manager by serso</a><br/>
