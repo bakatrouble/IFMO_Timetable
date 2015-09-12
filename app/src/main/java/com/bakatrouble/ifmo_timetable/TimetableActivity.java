@@ -215,6 +215,19 @@ public class TimetableActivity extends AppCompatActivity {
             }
             week = mOddWeek ? 1 : 2;
         }
+        try {
+            if(getPackageManager().getPackageInfo(getPackageName(), 0).versionCode > mPreferences.getInt("version", 0)){
+                mPreferences.edit().putInt("version", getPackageManager().getPackageInfo(getPackageName(), 0).versionCode).apply();
+
+                Bundle args = new Bundle();
+                args.putString("title", getResources().getString(R.string.changelog_title));
+                args.putCharSequence("html", Html.fromHtml(getResources().getString(R.string.changelog)));
+
+                FragmentHtmlDialog dialog = new FragmentHtmlDialog();
+                dialog.setArguments(args);
+                dialog.show(getSupportFragmentManager(), "changelog");
+            }
+        }catch(PackageManager.NameNotFoundException e){}
     }
 
     private void findViews(){
