@@ -25,6 +25,9 @@ proguard/
 # Log Files
 *.log
 
+# Idea configs
+.idea/
+
 # =========================
 # Operating System Files
 # =========================
