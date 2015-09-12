@@ -775,7 +775,7 @@ public class TimetableActivity extends AppCompatActivity {
         }else if(id == R.id.action_about) {
             FragmentHtmlDialog dialog = new FragmentHtmlDialog();
             Bundle args = new Bundle();
-            args.putString("title", getResources().getString(R.string.updates_available));
+            args.putString("title", getResources().getString(R.string.app_name));
             args.putCharSequence("html",
                     Html.fromHtml(getResources().getString(R.string.about_text))
             );
