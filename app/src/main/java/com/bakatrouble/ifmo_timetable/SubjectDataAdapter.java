@@ -96,6 +96,12 @@ public class SubjectDataAdapter extends RecyclerView.Adapter<SubjectDataAdapter.
         return mDataset.size();
     }
 
+    @Override
+    public void onViewRecycled(ViewHolder holder) {
+        holder.wrapper.setOnLongClickListener(null);
+        super.onViewRecycled(holder);
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
         public TextView time_begin;
         public TextView time_end;
