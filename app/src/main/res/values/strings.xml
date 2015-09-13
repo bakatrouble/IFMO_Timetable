@@ -22,6 +22,7 @@
     <string name="open_group_schedule" formatted="false">Открыть расписание группы %s</string>
     <string name="about_text"><![CDATA[
         Автор: <a href="http://bakatrouble.tk">bakatrouble</a> (2015)<br/>
+        <a href="mailto:bakatrouble@gmail.com">Книга жалоб и предложений</a><br/>
         Исходный код: <a href="https://github.com/bakatrouble/IFMO_Timetable">GitHub</a><br/><br/>
         Использованный код:<br/>
         &#8226; <a href="https://github.com/ozodrukh/CircularReveal">CircularReveal by ozodrukh</a><br/>
