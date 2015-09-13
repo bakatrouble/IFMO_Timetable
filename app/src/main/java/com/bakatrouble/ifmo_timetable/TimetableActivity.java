@@ -3,6 +3,7 @@ package com.bakatrouble.ifmo_timetable;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -307,10 +308,10 @@ public class TimetableActivity extends AppCompatActivity {
         mRequestQueue = Volley.newRequestQueue(this);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         mSuggestionAdapter = new SearchSuggestionAdapter();
-        TimetableActivity.DBHelper = new TimetableDBHelper(this, 4);
+        TimetableActivity.DBHelper = new TimetableDBHelper(this, 6);
     }
 
-    private void loadSchedule(final String pid, final SearchSuggestion.Type type){
+    public void loadSchedule(final String pid, final SearchSuggestion.Type type){
         String url = "http://orir.ifmo.ru/mobile/API2.0/index.php";
         mRequestQueue.cancelAll("__timetable_loader");
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -375,7 +376,9 @@ public class TimetableActivity extends AppCompatActivity {
                                 subj.getString("room") + " (" + subj.getString("place") + ")",
                                 gid,
                                 subj.getInt("day_week"),
-                                subj.getInt("week_type")
+                                subj.getInt("week_type"),
+                                isGroup ? subj.getString("pid") : subj.getString("gr"),
+                                isGroup ? SearchSuggestion.Type.Group : SearchSuggestion.Type.Teacher
                         ));
                     }
                     setAppState(AppState.LIST, TimetableActivity.DBHelper.getTitleByInternalId(gid));
@@ -850,7 +853,7 @@ public class TimetableActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            mFragments[position] = TimetableFragment.newInstance(position);
+            mFragments[position] = TimetableFragment.newInstance(position, TimetableActivity.this);
             return mFragments[position];
         }
 

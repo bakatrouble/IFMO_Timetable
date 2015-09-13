@@ -18,6 +18,8 @@
     <string name="no_lessons_sorry">В этот день нет занятий.\nА жаль :(</string>
     <string name="refresh">Обновить</string>
     <string name="today">Расписание на сегодня</string>
+    <string name="open_teacher_schedule">Открыть расписание преподавателя</string>
+    <string name="open_group_schedule" formatted="false">Открыть расписание группы %s</string>
     <string name="about_text"><![CDATA[
         Автор: <a href="http://bakatrouble.tk">bakatrouble</a> (2015)<br/>
         Исходный код: <a href="https://github.com/bakatrouble/IFMO_Timetable">GitHub</a><br/><br/>

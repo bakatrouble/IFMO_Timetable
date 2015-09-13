@@ -27,6 +27,8 @@ public class TimetableDBHelper extends SQLiteOpenHelper {
     static final String CACHE_TEACHER = "teacher";
     static final String CACHE_WEEK = "week";
     static final String CACHE_DAY = "day";
+    static final String CACHE_JOINED_ID = "jid";
+    static final String CACHE_TYPE = "`type`";
 
     final String CREATE_INDEX_TABLE =
                     "CREATE TABLE "+INDEX_TABLE+"("+
@@ -45,7 +47,9 @@ public class TimetableDBHelper extends SQLiteOpenHelper {
                     CACHE_PLACE+" TEXT, "+
                     CACHE_TEACHER+" TEXT, "+
                     CACHE_WEEK+" INTEGER, "+
-                    CACHE_DAY+" INTEGER"+
+                    CACHE_DAY+" INTEGER, "+
+                    CACHE_JOINED_ID+" TEXT, "+
+                    CACHE_TYPE+" INTEGER"+
                     ")";
 
     static final String DB_NAME = "timetable.db";
@@ -64,10 +68,18 @@ public class TimetableDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        mContext.getSharedPreferences(TimetableActivity.PREFS_FILE, 2).edit().clear().apply();
-        db.execSQL("DROP TABLE IF EXISTS "+INDEX_TABLE);
-        db.execSQL("DROP TABLE IF EXISTS "+CACHE_TABLE);
-        onCreate(db);
+        if(oldVersion < 4){
+            mContext.getSharedPreferences(TimetableActivity.PREFS_FILE, 2).edit().clear().apply();
+            db.execSQL("DROP TABLE IF EXISTS "+INDEX_TABLE);
+            db.execSQL("DROP TABLE IF EXISTS "+CACHE_TABLE);
+            onCreate(db);
+        }
+        if(oldVersion == 4){
+            db.execSQL("ALTER TABLE "+CACHE_TABLE+" ADD COLUMN "+CACHE_JOINED_ID+" TEXT");
+        }
+        if(oldVersion == 5){
+            db.execSQL("ALTER TABLE "+CACHE_TABLE+" ADD COLUMN "+CACHE_TYPE+" INTEGER");
+        }
     }
 
     public long getIdByPid(String pid){
@@ -115,7 +127,7 @@ public class TimetableDBHelper extends SQLiteOpenHelper {
     public ArrayList<Subject> getSubjects(int week, int day, long id){
         ArrayList<Subject> out = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
-        String[] columns = {CACHE_TITLE, CACHE_TEACHER, CACHE_TIME_BEGIN, CACHE_TIME_END, CACHE_PLACE};
+        String[] columns = {CACHE_TITLE, CACHE_TEACHER, CACHE_TIME_BEGIN, CACHE_TIME_END, CACHE_PLACE, CACHE_JOINED_ID, CACHE_TYPE};
         String selection = CACHE_INDEX_ID+" = ? and "+CACHE_DAY+" = ? and ("+CACHE_WEEK+" = ? or "+CACHE_WEEK+" = 0)";
         String[] selectionArgs = {id+"", day+"", week+""};
         Cursor c = db.query(CACHE_TABLE, columns, selection, selectionArgs, null, null, CACHE_ID);
@@ -123,9 +135,11 @@ public class TimetableDBHelper extends SQLiteOpenHelper {
             if (c.moveToFirst()) {
                 do {
                     if(out.size() > 0 && out.get(out.size()-1).time_begin.equals(c.getString(2))){
-                        out.get(out.size()-1).addons.add(new Subject(c.getString(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4)));
+                        out.get(out.size()-1).addons.add(new Subject(c.getString(0), c.getString(1), c.getString(2), c.getString(3),
+                                c.getString(4), c.getString(5), c.getInt(6) == 1 ? SearchSuggestion.Type.Group : SearchSuggestion.Type.Teacher));
                     }else{
-                        out.add(new Subject(c.getString(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4)));
+                        out.add(new Subject(c.getString(0), c.getString(1), c.getString(2), c.getString(3),
+                                c.getString(4), c.getString(5), c.getInt(6) == 1 ? SearchSuggestion.Type.Group : SearchSuggestion.Type.Teacher));
                     }
                 } while (c.moveToNext());
             }
@@ -154,6 +168,8 @@ public class TimetableDBHelper extends SQLiteOpenHelper {
         cv.put(CACHE_TIME_BEGIN, subject.time_begin);
         cv.put(CACHE_TIME_END, subject.time_end);
         cv.put(CACHE_PLACE, subject.place);
+        cv.put(CACHE_JOINED_ID, subject.jid);
+        cv.put(CACHE_TYPE, subject.type == SearchSuggestion.Type.Group ? 1 : 2);
         return db.insert(CACHE_TABLE, "null", cv);
     }
 

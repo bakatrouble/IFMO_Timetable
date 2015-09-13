@@ -9,12 +9,14 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -22,15 +24,20 @@ public class TimetableFragment extends Fragment {
     private SubjectDataAdapter mSubjectDataAdapter;
     View rootView;
     int pos;
+    TimetableActivity act;
 
-    public static TimetableFragment newInstance(int pos) {
+    public static TimetableFragment newInstance(int pos, TimetableActivity act) {
         TimetableFragment fragment = new TimetableFragment();
         fragment.pos = pos;
+        fragment.setActivity(act);
         return fragment;
     }
 
     public TimetableFragment(){
-        mSubjectDataAdapter = new SubjectDataAdapter();
+    }
+
+    public void setActivity(TimetableActivity act){
+        this.act = act;
     }
 
     @Override
@@ -42,6 +49,8 @@ public class TimetableFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        mSubjectDataAdapter = new SubjectDataAdapter(act);
 
         if(savedInstanceState != null){
             int tmp = savedInstanceState.getInt("tab_position", -1);
@@ -84,7 +93,13 @@ public class TimetableFragment extends Fragment {
 
         mSubjectDataAdapter.updateDataset(subjects);
         recyclerView.setAdapter(mSubjectDataAdapter);
+        registerForContextMenu(recyclerView);
         return rootView;
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        return super.onContextItemSelected(item);
     }
 }
 
