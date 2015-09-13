@@ -72,10 +72,10 @@ public class TimetableDBHelper extends SQLiteOpenHelper {
             db.execSQL("DROP TABLE IF EXISTS "+CACHE_TABLE);
             onCreate(db);
         }
-        if(oldVersion == 4){
+        if(oldVersion < 6){
             db.execSQL("ALTER TABLE "+CACHE_TABLE+" ADD COLUMN "+CACHE_JOINED_ID+" TEXT");
         }
-        if(oldVersion == 5){
+        if(oldVersion < 6){
             db.execSQL("ALTER TABLE "+CACHE_TABLE+" ADD COLUMN "+CACHE_TYPE+" INTEGER");
         }
     }
