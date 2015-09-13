@@ -13,7 +13,8 @@
 
         <activity
             android:name=".TimetableActivity"
-            android:label="@string/title_activity_timetable">
+            android:label="@string/title_activity_timetable"
+            android:configChanges="orientation|screenSize">
 
             <intent-filter>
 
